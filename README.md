@@ -4,7 +4,7 @@ Darklight Nova Core Issue: Auditing
 Issue for [Darklight Nova Core](https://github.com/darklight-studios/darklight-nova-core)
 
 ### Function
-The Auditing checks that auditing policies have been set in Windows (Local Security Policy)
+The Auditing issue checks that auditing policies have been set in Windows (Local Security Policy)
 
 ### Use
 
