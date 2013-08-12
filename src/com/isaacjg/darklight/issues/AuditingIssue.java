@@ -44,14 +44,14 @@ public class AuditingIssue extends Issue {
 
 	@Override
 	public boolean isFixed() {
+		try {
+			Process p = Runtime.getRuntime().exec("cmd.exe /c secedit /export /cfg " + seceditDump.getAbsolutePath());
+			p.waitFor();
+			lastModified = seceditDump.lastModified();
+		} catch (InterruptedException | IOException e) {
+			e.printStackTrace();
+		}
 		if (seceditDump.lastModified() == lastModified) {
-			try {
-				Process p = Runtime.getRuntime().exec("cmd.exe /c secedit /export /cfg " + seceditDump.getAbsolutePath());
-				p.waitFor();
-				lastModified = seceditDump.lastModified();
-			} catch (InterruptedException | IOException e) {
-				e.printStackTrace();
-			}
 			try {
 				ArrayList<byte[]> dump = FileLoader.tokenizedLoad(seceditDump);
 				int systemEvents = Integer.parseInt(INIUtils.search("AuditSystemEvents", dump));
@@ -72,7 +72,6 @@ public class AuditingIssue extends Issue {
 			} catch (FileNotFoundException e) {}
 		} else {
 			System.err.println("secedit dump has been modified");
-			return false;
 		}
 		return false;
 	}
