@@ -35,7 +35,7 @@ import com.ijg.darklight.sdk.utils.INIUtils;
  */
 public class AuditingIssue extends Issue {
 
-	private File seceditDump = new File(".", "secedit.txt");
+	private File seceditDump = new File("secedit.txt");
 	private long lastModified = seceditDump.lastModified();
 	
 	public AuditingIssue() {
@@ -45,7 +45,7 @@ public class AuditingIssue extends Issue {
 	@Override
 	public boolean isFixed() {
 		try {
-			Process p = Runtime.getRuntime().exec("cmd.exe /c secedit /export /cfg " + seceditDump.getAbsolutePath());
+			Process p = Runtime.getRuntime().exec("cmd.exe /c secedit /export /cfg \"" + seceditDump.getAbsolutePath() + "\"");
 			p.waitFor();
 			lastModified = seceditDump.lastModified();
 		} catch (InterruptedException | IOException e) {
